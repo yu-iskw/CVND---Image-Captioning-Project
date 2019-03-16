@@ -1,5 +1,4 @@
 #!/bin/bash
-sed -e
 
 # Make the directory.
 BASE_DIR="/opt/cocoapi"
