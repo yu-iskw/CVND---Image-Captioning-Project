@@ -11,3 +11,5 @@ var
 *.swp
 .DS_Store
 ./.polyaxon
+LuaAPI/
+MatlabAPI/
