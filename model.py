@@ -4,7 +4,7 @@ import torchvision.models as models
 
 
 class EncoderCNN(nn.Module):
-    def __init__(self, embed_size):
+    def __init__(self, embed_size, drop_prob=0.5):
         super(EncoderCNN, self).__init__()
         resnet = models.resnet50(pretrained=True)
         for param in resnet.parameters():
