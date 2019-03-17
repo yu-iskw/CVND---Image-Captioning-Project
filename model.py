@@ -28,7 +28,6 @@ class DecoderRNN(nn.Module):
 
         self.batch_size = batch_size
         self.hidden_size = hidden_size
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         self.embed = nn.Embedding(vocab_size, embed_size)
 
@@ -48,14 +47,14 @@ class DecoderRNN(nn.Module):
            there will be none because the hidden state is formed based on perviously seen data.
            So, this function defines a hidden state with all zeroes and of a specified size.'''
         # The axes dimensions are (n_layers, batch_size, hidden_size)
-        hidden = (torch.zeros(1, self.batch_size, self.hidden_size, device=self.device),
-                          torch.zeros(1, self.batch_size, self.hidden_size, device=self.device))
+        hidden = (torch.zeros(1, self.batch_size, self.hidden_size),
+                  torch.zeros(1, self.batch_size, self.hidden_size))
         return hidden
 
     def forward(self, features, captions):
         # Arrange inputs
         features = features.unsqueeze(1)
-        embeddings = self.embed(captions[:,:-1])
+        embeddings = self.embed(captions[:, :-1])
         lstm_inputs = torch.cat((features, embeddings), 1)
         lstm_out, self.hidden = self.lstm(lstm_inputs, self.hidden)
         vocab_outputs = self.hidden2vocab(lstm_out)
