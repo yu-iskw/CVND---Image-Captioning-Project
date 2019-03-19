@@ -12,11 +12,13 @@ class EncoderCNN(nn.Module):
 
         modules = list(resnet.children())[:-1]
         self.resnet = nn.Sequential(*modules)
+        self.dropout = nn.Dropout(drop_prob)
         self.embed = nn.Linear(resnet.fc.in_features, embed_size)
 
     def forward(self, images):
         features = self.resnet(images)
         features = features.view(features.size(0), -1)
+        features = self.dropout(features)
         features = self.embed(features)
         return features
 
@@ -46,6 +48,7 @@ class DecoderRNN(nn.Module):
         embeddings = self.embed(captions[:, :-1])
         lstm_inputs = torch.cat((features, embeddings), 1)
         lstm_out, _ = self.lstm(lstm_inputs)
+        lstm_out = self.dropout(lstm_out)
         vocab_outputs = self.hidden2vocab(lstm_out)
         return vocab_outputs
 

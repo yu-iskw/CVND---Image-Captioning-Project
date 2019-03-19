@@ -10,6 +10,8 @@ cd "${BASE_DIR}" || exit
 # Prepare for annotations.
 curl -O http://images.cocodataset.org/annotations/annotations_trainval2014.zip
 unzip -q annotations_trainval2014.zip
+http://images.cocodataset.org/annotations/image_info_test2014.zip
+unzip -q image_info_test2014.zip
 
 # Prepare for images.
 if [ ! -d "${BASE_DIR}/images" ] ; then
